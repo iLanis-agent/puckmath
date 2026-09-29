@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PuckMath - calculator</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #0f1418; color: #eef4f8; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+  main { max-width: 760px; padding: 32px 20px 48px; width: 100%; box-sizing: border-box; }
+  h1 { font-size: 1.9rem; margin: 0 0 4px; }
+  p.sub { color: #c4d6e0; margin: 0 0 20px; }
+  .card { background: #141c22; border: 1px solid #28394a; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px; }
+  .card h2 { margin: 0 0 12px; font-size: 1.05rem; color: #d9e6ef; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 14px; }
+  label { display: block; color: #a7bfca; font-size: 0.82rem; margin-bottom: 4px; }
+  input { width: 100%; box-sizing: border-box; background: #0f1418; border: 1px solid #35495c; color: #eef4f8; border-radius: 8px; padding: 9px 10px; font-size: 0.95rem; }
+  .presets { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .presets button { background: #182430; color: #e2edf4; border: 1px solid #35495c; border-radius: 999px; padding: 7px 14px; font-size: 0.85rem; cursor: pointer; }
+  .presets button:hover { background: #28394a; }
+  .out { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .metric { background: #0f1418; border: 1px solid #28394a; border-radius: 10px; padding: 12px 14px; }
+  .metric .v { font-size: 1.3rem; font-weight: 700; color: #7cc2ef; }
+  .metric .k { color: #a7bfca; font-size: 0.78rem; margin-top: 2px; }
+  .note { color: #87a2b1; font-size: 0.82rem; line-height: 1.5; margin-top: 10px; }
+  a.back { color: #7cc2ef; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>&#127954; PuckMath</h1>
+  <p class="sub">Skill or streak - the numbers know.</p>
+  <div class="presets">
+    <button data-p="contender">Contender profile</button>
+    <button data-p="lucky">Lucky streak</button>
+    <button data-p="snakebitten">Snakebitten</button>
+    <button data-p="average">League average</button>
+  </div>
+  <div class="card">
+    <h2>1. The goalie</h2>
+    <div class="grid">
+      <div><label>Shots against</label><input id="shots" type="number" value="1000" min="0"></div>
+      <div><label>Saves</label><input id="saves" type="number" value="912" min="0"></div>
+      <div><label>Goals against</label><input id="ga" type="number" value="88" min="0"></div>
+      <div><label>Minutes played</label><input id="mins" type="number" value="2100" min="0"></div>
+    </div>
+    <div class="out" style="margin-top:12px">
+      <div class="metric"><div class="v" id="o-sv">-</div><div class="k">Save percentage</div></div>
+      <div class="metric"><div class="v" id="o-gaa">-</div><div class="k">Goals-against average</div></div>
+      <div class="metric"><div class="v" id="o-svband">-</div><div class="k">Honest band</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>2. The skater</h2>
+    <div class="grid">
+      <div><label>Goals</label><input id="goals" type="number" value="42" min="0"></div>
+      <div><label>Shots</label><input id="shotsfor" type="number" value="380" min="0"></div>
+      <div><label>Minutes played</label><input id="smins" type="number" value="1200" min="0"></div>
+    </div>
+    <div class="out" style="margin-top:12px">
+      <div class="metric"><div class="v" id="o-sh">-</div><div class="k">Shooting %</div></div>
+      <div class="metric"><div class="v" id="o-g60">-</div><div class="k">Goals per 60</div></div>
+      <div class="metric"><div class="v" id="o-shband">-</div><div class="k">Sustainability read</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>3. The team</h2>
+    <div class="grid">
+      <div><label>Shot attempts for (Corsi)</label><input id="cfor" type="number" value="2200" min="0"></div>
+      <div><label>Shot attempts against</label><input id="cagainst" type="number" value="1900" min="0"></div>
+      <div><label>Unblocked for (Fenwick)</label><input id="ffor" type="number" value="1700" min="0"></div>
+      <div><label>Unblocked against</label><input id="fagainst" type="number" value="1500" min="0"></div>
+      <div><label>Points</label><input id="pts" type="number" value="48" min="0"></div>
+      <div><label>Games played</label><input id="gp" type="number" value="41" min="0"></div>
+    </div>
+    <div class="out" style="margin-top:12px">
+      <div class="metric"><div class="v" id="o-corsi">-</div><div class="k">Corsi %</div></div>
+      <div class="metric"><div class="v" id="o-fenwick">-</div><div class="k">Fenwick %</div></div>
+      <div class="metric"><div class="v" id="o-pdo">-</div><div class="k">PDO (luck meter, 100 = normal)</div></div>
+      <div class="metric"><div class="v" id="o-pdoband">-</div><div class="k">PDO read</div></div>
+      <div class="metric"><div class="v" id="o-pace">-</div><div class="k">82-game points pace</div></div>
+      <div class="metric"><div class="v" id="o-ppct">-</div><div class="k">Points percentage</div></div>
+    </div>
+    <p class="note">PDO adds team shooting % and team save % on a 100 scale. Everyone drifts back to 100: the team at 102.3 is not "clutch", and the team at 97.8 is not "cursed". The shot share underneath is the part that lasts.</p>
+  </div>
+  <p><a class="back" href="index.html">&larr; Back to PuckMath</a></p>
+</main>
+<script src="engine.js"></script>
+<script>
+(function () {
+  var ids = ['shots','saves','ga','mins','goals','shotsfor','smins','cfor','cagainst','ffor','fagainst','pts','gp'];
+  function num(id) { var v = parseFloat(document.getElementById(id).value); return isFinite(v) ? v : 0; }
+  function compute() {
+    if (typeof PuckMath === 'undefined') return;
+    var sv = PuckMath.savePct(num('saves'), num('shots'));
+    document.getElementById('o-sv').textContent = PuckMath.fmtSv(sv);
+    document.getElementById('o-gaa').textContent = PuckMath.fmt2(PuckMath.gaa(num('ga'), num('mins')));
+    document.getElementById('o-svband').textContent = sv ? PuckMath.saveBand(sv) : '-';
+
+    var sh = PuckMath.shootingPct(num('goals'), num('shotsfor'));
+    document.getElementById('o-sh').textContent = sh === null ? '-' : (sh * 100).toFixed(1) + '%';
+    document.getElementById('o-g60').textContent = PuckMath.fmt2(PuckMath.per60(num('goals'), num('smins')));
+    document.getElementById('o-shband').textContent = sh === null ? '-'
+      : (sh > 0.15 ? 'above 15% - snipers live here briefly; regression packs a bag'
+      : sh > 0.10 ? 'healthy finisher range'
+      : sh > 0.06 ? 'ordinary - goals will come at this shot volume'
+      : 'cold - under 6% almost never lasts');
+
+    var corsi = PuckMath.corsiPct(num('cfor'), num('cagainst'));
+    document.getElementById('o-corsi').textContent = corsi === null ? '-' : corsi.toFixed(1) + '%';
+    document.getElementById('o-fenwick').textContent = PuckMath.fmt1(PuckMath.fenwickPct(num('ffor'), num('fagainst'))) + (num('ffor') + num('fagainst') > 0 ? '%' : '');
+    var pdo = PuckMath.pdo(sh, sv);
+    document.getElementById('o-pdo').textContent = PuckMath.fmt1(pdo);
+    document.getElementById('o-pdoband').textContent = pdo ? PuckMath.pdoBand(pdo) : '-';
+    document.getElementById('o-pace').textContent = PuckMath.fmt1(PuckMath.pointsPace(num('pts'), num('gp')));
+    var ppct = PuckMath.pointsPct(num('pts'), num('gp'));
+    document.getElementById('o-ppct').textContent = ppct === null ? '-' : (ppct * 100).toFixed(1) + '%';
+  }
+  var presets = {
+    contender:  {shots:1000, saves:920, ga:80, mins:2100, goals:38, shotsfor:400, smins:1250, cfor:2300, cagainst:1800, ffor:1780, fagainst:1420, pts:56, gp:41},
+    lucky:      {shots:1000, saves:912, ga:88, mins:2100, goals:42, shotsfor:380, smins:1200, cfor:1850, cagainst:2150, ffor:1450, fagainst:1650, pts:52, gp:41},
+    snakebitten:{shots:1000, saves:900, ga:100, mins:2100, goals:25, shotsfor:400, smins:1200, cfor:2250, cagainst:1850, ffor:1740, fagainst:1460, pts:38, gp:41},
+    average:    {shots:1000, saves:910, ga:90, mins:2100, goals:32, shotsfor:400, smins:1200, cfor:2050, cagainst:2050, ffor:1600, fagainst:1600, pts:46, gp:41}
+  };
+  Array.prototype.forEach.call(document.querySelectorAll('.presets button'), function (b) {
+    b.addEventListener('click', function () {
+      var p = presets[b.getAttribute('data-p')];
+      if (!p) return;
+      Object.keys(p).forEach(function (k) { document.getElementById(k).value = p[k]; });
+      compute();
+    });
+  });
+  ids.forEach(function (id) {
+    document.getElementById(id).addEventListener('input', compute);
+    document.getElementById(id).addEventListener('change', compute);
+  });
+  compute();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PuckMath - the standings lie; the shot clock does not</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #0f1418; color: #eef4f8; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+  main { max-width: 680px; padding: 48px 24px; text-align: center; }
+  h1 { font-size: 2.4rem; margin: 0 0 12px; }
+  p.lead { color: #c4d6e0; font-size: 1.1rem; line-height: 1.6; }
+  ul { text-align: left; color: #a7bfca; line-height: 1.7; margin: 28px auto; max-width: 520px; }
+  a.btn { display: inline-block; margin-top: 24px; background: #2f7fb8; color: #fff; font-weight: 700; padding: 14px 32px; border-radius: 10px; text-decoration: none; }
+  a.btn:hover { background: #4198d1; }
+  .foot { color: #5f7a89; font-size: 0.85rem; margin-top: 40px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>&#127954; PuckMath</h1>
+  <p class="lead">A team can win four straight while getting outshot every night, and the standings will not tell you it is borrowed time. PuckMath computes the numbers that separate skill from streak: save percentage, shot share, and PDO - the hockey luck meter that always comes back to collect.</p>
+  <ul>
+    <li><b>Goaltending</b> - save percentage written the hockey way (.912, not 91.2%), plus goals-against average per 60 minutes.</li>
+    <li><b>Shot share</b> - Corsi (all attempts) and Fenwick (unblocked attempts). Possession hockey has a number, and this is it.</li>
+    <li><b>PDO, the luck meter</b> - shooting % plus save %. The whole league regresses to 100; a team at 102.3 is riding a wave that gravity always collects.</li>
+    <li><b>Points pace</b> - 2 points a win, 1 for the overtime loss, scaled to an 82-game season. The honest projection of the current streak.</li>
+  </ul>
+  <a class="btn" href="app.html">Run the numbers</a>
+  <p class="foot">Static page, no accounts, nothing leaves your browser.</p>
+</main>
+</body>
+</html>
